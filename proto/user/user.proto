@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package user;
+
+option go_package = "proto/user";
+option java_multiple_files = true;
+option java_package = "io.grpc.examples.user";
+option java_outer_classname = "User";
+
+service UserService {
+  rpc UserLogin(UserLoginRequest) returns (UserLoginResponse) {}
+  rpc UserCheck(UserCheckRequest) returns (UserCheckResponse) {}
+  rpc UserCreate(UserCreateRequest) returns (UserCreateResponse) {}
+  rpc UserGet(UserGetRequest) returns (UserGetResponse) {}
+}
+
+// -------------------
+// login
+// -------------------
+message UserLoginRequest {
+  string authData = 1;
+}
+
+message UserLoginResponse {
+  string data = 1;
+  string message = 2;
+  string code = 3;
+}
+
+// -------------------
+// CheckToke
+// -------------------
+message UserCheckRequest {
+  string data = 1;
+}
+
+message UserCheckResponse {
+  bool state = 1;
+  string message = 2;
+}
+
+// -------------------
+// Crete
+// -------------------
+message UserCreateRequest {
+  string login = 1;
+  string name = 2;
+  string password = 3;
+  string email = 4;
+}
+
+message UserCreateResponse {
+  string message = 1;
+  string code = 2;
+}
+
+// -------------------
+// Get
+// -------------------
+message UserGetRequest {
+  string data = 1;
+}
+
+message UserGetResponse {
+  string login = 1;
+  string name = 2;
+  string email = 3;
+  string code = 4;
+  string message = 5;
+}

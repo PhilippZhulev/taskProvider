@@ -1,0 +1,17 @@
+{
+  "name": "taskProvider",
+  "version": "1.0.0",
+  "errorLog": true,
+  "errorLogUrl": "./pipeline/service_err_log.txt",
+  "log": true,
+  "logUrl": "./pipeline/service_log.txt",
+  "bot": true,
+  "botToken": "1424234499:AAGdzlXieM3HFryXKESM0v2PNKZBS-A2PgM",
+  "botAuth": ["1065583343"],
+  "botDebug": false,
+  "services": [
+    ["getway", "./services/getway/bin/getway"],
+    ["broker", "./services/broker/bin/broker"],
+    ["user", "./services/user/bin/user"]
+  ]
+}

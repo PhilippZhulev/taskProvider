@@ -1,0 +1,21 @@
+{
+  "dir": "/Users/u16837531/Documents/micro_services/proto",
+  "desp": [
+    {
+      "in": "./proto/getway/getway.proto",
+      "getway": true,
+      "out": [
+        "./services/broker",
+        "./services/getway"
+      ]
+    },
+    {
+      "in": "./proto/user/user.proto",
+      "getway": false,
+      "out": [
+        "./services/user",
+        "./services/broker"
+      ]
+    }
+  ]
+}
