@@ -7,6 +7,6 @@ steps:
 - name: taskProviderBackend
   image: zhulevfa/task-provider
   commands:
-    - go run ./services/user/cmd/user -conf=./services/user/configs/user.toml
+    - go version
 
 
