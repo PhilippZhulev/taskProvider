@@ -18,10 +18,10 @@ func (s *initServer) Login(ctx context.Context, in *pb.LoginUserRequest) (*pb.Lo
 
 	res, err := s.user.HandleLogin(in.GetAuthData().AuthData, c)
 	if err != nil {
-		return resp("", err.Error(), "400")
+		return resp(nil, err.Error(), "401")
 	}
 
-	return resp(res.GetData(), res.GetMessage(), res.Code)
+	return resp([]byte(res.GetData()), res.GetMessage(), res.Code)
 }
 
 // CreateUser  --->  User service
