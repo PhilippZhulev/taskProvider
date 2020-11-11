@@ -8,6 +8,7 @@ import (
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
+	"github.com/go-chi/cors"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 
 	"github.com/sirupsen/logrus"
@@ -47,6 +48,15 @@ func (s *server) configureMiddleware() error {
 	s.mux.Use(middleware.Logger)
 	s.mux.Use(middleware.Recoverer)
 	s.mux.Use(middleware.Timeout(60 * time.Second))
+
+	s.mux.Use(cors.Handler(cors.Options{
+		AllowedOrigins:   []string{"*"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
+		ExposedHeaders:   []string{"Link"},
+		AllowCredentials: false,
+		MaxAge:           300,
+  	}))
 
 	grpcGwMux := runtime.NewServeMux(
 		runtime.WithForwardResponseOption(s.httpResponseModifier),

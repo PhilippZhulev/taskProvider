@@ -1035,3 +1035,24 @@ LOG broker: INFO: 2020/11/09 13:09:21 [core] Subchannel Connectivity change to S
 LOG getway: 2020/11/09 13:09:21 [CAB-WSM-0003167/PWyXBNKi2W-000001] "GET http://localhost:8081/api/v1/user HTTP/1.1" from [::1]:51274 - 401 24B in 4.29555ms
 LOG broker: INFO: 2020/11/11 01:57:17 Run broker service: localhost:5040
 LOG user  : INFO: 2020/11/11 01:57:17 Run user service: localhost:5041
+LOG broker: INFO: 2020/11/11 14:27:32 Run broker service: localhost:5040
+LOG user  : INFO: 2020/11/11 14:27:33 Run user service: localhost:5041
+LOG broker: INFO: 2020/11/11 14:28:55 [core] parsed scheme: ""
+LOG broker: INFO: 2020/11/11 14:28:55 [core] scheme "" not registered, fallback to default scheme
+LOG broker: INFO: 2020/11/11 14:28:55 [core] ccResolverWrapper: sending update to cc: {[{localhost:5041  <nil> 0 <nil>}] <nil> <nil>}
+LOG broker: INFO: 2020/11/11 14:28:55 [core] ClientConn switching balancer to "pick_first"
+LOG broker: INFO: 2020/11/11 14:28:55 [core] Channel switches to new LB policy "pick_first"
+LOG broker: INFO: 2020/11/11 14:28:55 [core] Subchannel Connectivity change to CONNECTING
+LOG broker: INFO: 2020/11/11 14:28:55 [core] Subchannel picks a new address "localhost:5041" to connect
+LOG broker: INFO: 2020/11/11 14:28:55 [core] Channel Connectivity change to CONNECTING
+LOG broker: INFO: 2020/11/11 14:28:55 [core] Subchannel Connectivity change to READY
+LOG broker: INFO: 2020/11/11 14:28:55 [core] Channel Connectivity change to READY
+LOG broker: INFO: 2020/11/11 14:28:55 [core] Channel Connectivity change to SHUTDOWN
+LOG broker: INFO: 2020/11/11 14:28:55 [core] Subchannel Connectivity change to SHUTDOWN
+LOG getway: 2020/11/11 14:28:55 [CAB-WSM-0003167/1kxneVGoYU-000001] "POST http://localhost:8081/api/v1/user/login HTTP/1.1" from [::1]:54075 - 200 251B in 42.762703ms
+LOG getway: 2020/11/11 14:30:08 [CAB-WSM-0003167/1kxneVGoYU-000002] "GET http://localhost:8081/api/v1/user/login HTTP/1.1" from [::1]:54087 - 501 57B in 188.748µs
+LOG getway: 2020/11/11 14:30:08 [CAB-WSM-0003167/1kxneVGoYU-000003] "GET http://localhost:8081/favicon.ico HTTP/1.1" from [::1]:54087 - 404 19B in 16.201µs
+LOG getway: 2020/11/11 14:30:50 [CAB-WSM-0003167/1kxneVGoYU-000004] "GET http://localhost:8081/api/v1/user/login HTTP/1.1" from [::1]:54087 - 501 57B in 105.846µs
+LOG broker: INFO: 2020/11/11 14:32:20 Run broker service: localhost:5040
+LOG user  : INFO: 2020/11/11 14:32:20 Run user service: localhost:5041
+LOG getway: 2020/11/11 14:32:26 [CAB-WSM-0003167/9C3spUmn9u-000001] "GET http://localhost:8081/api/v1/user/login HTTP/1.1" from [::1]:54532 - 501 57B in 162.921µs
