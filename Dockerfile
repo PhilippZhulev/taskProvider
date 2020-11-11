@@ -8,4 +8,4 @@ RUN go install -v ./...
 
 EXPOSE 5000
 
-CMD ["pipeline/cmd/pipeline"]
+CMD go run ./services/user/cmd/user -conf=./services/user/configs/user.toml

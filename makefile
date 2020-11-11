@@ -94,7 +94,7 @@ buildpipe:
 .PHONY: pipeline
 pipeline:
 	# run pipeline
-	./pipeline/bin/pipeline    
+	go run ./pipeline/cmd/pipeline    
 
 .PHONY: buildpg
 buildpg:

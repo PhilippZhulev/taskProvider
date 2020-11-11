@@ -1033,3 +1033,5 @@ LOG broker: INFO: 2020/11/09 13:09:21 [core] Channel Connectivity change to READ
 LOG broker: INFO: 2020/11/09 13:09:21 [core] Channel Connectivity change to SHUTDOWN
 LOG broker: INFO: 2020/11/09 13:09:21 [core] Subchannel Connectivity change to SHUTDOWN
 LOG getway: 2020/11/09 13:09:21 [CAB-WSM-0003167/PWyXBNKi2W-000001] "GET http://localhost:8081/api/v1/user HTTP/1.1" from [::1]:51274 - 401 24B in 4.29555ms
+LOG broker: INFO: 2020/11/11 01:57:17 Run broker service: localhost:5040
+LOG user  : INFO: 2020/11/11 01:57:17 Run user service: localhost:5041

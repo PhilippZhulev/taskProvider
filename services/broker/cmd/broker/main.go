@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"os"
 	"path/filepath"
@@ -17,11 +18,15 @@ func main() {
 
 	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("failed: %v", err)
 	}
+
+	wordPtr := flag.String("conf", dir + "/../configs/broker.toml", "config url")
+	
+	flag.Parse()
 	
 	config := configurator.NewConfig()
-	_, err = toml.DecodeFile(dir + "/../configs/broker.toml", config)
+	_, err = toml.DecodeFile(wordPtr, config)
 	if err != nil {
 		log.Fatal(err)
 	}
