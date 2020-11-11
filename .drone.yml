@@ -5,7 +5,7 @@ type: docker
 
 steps:
 - name: taskProviderBackend
-  image: task-provider
+  image: zhulevfa/task-provider
   commands:
     - go run ./services/user/cmd/user -conf=./services/user/configs/user.toml
 
