@@ -9,9 +9,9 @@ services:
     volumes:
       - ./services/broker:/go/src/taskProvider/services/broker
     restart: always
-    environment:
-      - GRPC_GO_LOG_VERBOSITY_LEVEL=99 
-      - GRPC_GO_LOG_SEVERITY_LEVEL=info
+    #environment:
+      #- GRPC_GO_LOG_VERBOSITY_LEVEL=99 
+      #- GRPC_GO_LOG_SEVERITY_LEVEL=info
     networks:
       static-network:
         ipv4_address: 172.16.238.2
@@ -40,15 +40,37 @@ services:
     restart: always
     ports:
       - "8081:8081"
-    environment:
-      - GRPC_TRACE=all
-      - GRPC_VERBOSITY=DEBUG
-      - GRPC_GO_LOG_VERBOSITY_LEVEL=2
-      - GRPC_GO_LOG_SEVERITY_LEVEL=info
+    #environment:
+      # - GRPC_TRACE=all
+      # - GRPC_VERBOSITY=DEBUG
+      # - GRPC_GO_LOG_VERBOSITY_LEVEL=2
+      # -GRPC_GO_LOG_SEVERITY_LEVEL=info
     networks:
       static-network:
         ipv4_address: 172.16.238.4
-  
+
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: P@ssword
+    ports:
+    - 5432:5432
+    volumes:
+      - ./temp/:/var/lib/postgresql/data/
+    networks:
+      static-network:
+        ipv4_address: 172.16.238.5
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 7080:8080
+    networks:
+      static-network:
+        ipv4_address: 172.16.238.6
 
 
 networks:

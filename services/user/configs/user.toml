@@ -1,3 +1,3 @@
 service_addr = ":7041"
-database_url = "user=phill password=1hb673va host=5.23.48.19 dbname=ap_user_db"
+database_url = "user=root password=P@ssword port=5432 host=172.16.238.5 dbname=user sslmode=disable"
 salt = "f340fg::::cmi349v9u34umf"
