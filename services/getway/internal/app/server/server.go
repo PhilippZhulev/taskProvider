@@ -62,7 +62,7 @@ func (s *server) configureMiddleware() error {
 		runtime.WithForwardResponseOption(s.httpResponseModifier),
 	)
 
-	// Инициализируем сервис Login
+	// Инициализируем сервис User
 	initUserConn, err := s.service.Init(grpcGwMux); 
 	defer initUserConn.Close()
 	if err != nil {
@@ -81,7 +81,7 @@ func (s *server) configureMiddleware() error {
 func (s *server) httpResponseModifier(ctx context.Context, w http.ResponseWriter, p protoreflect.ProtoMessage) error {
 	md, ok := runtime.ServerMetadataFromContext(ctx)
 	if !ok {
-		return nil
+		return nil 
 	}
 
 	if vals := md.HeaderMD.Get("x-http-code"); len(vals) > 0 {

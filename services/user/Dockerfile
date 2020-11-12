@@ -11,4 +11,4 @@ RUN go install -v ./...
 
 CMD go run ./services/user/cmd/user -conf=./services/user/configs/user.toml
 
-EXPOSE 5041
+EXPOSE 7041

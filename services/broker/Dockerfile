@@ -11,4 +11,4 @@ RUN go install -v ./...
 
 CMD go run ./services/broker/cmd/broker -conf=./services/broker/configs/broker.toml
 
-EXPOSE 5040
+EXPOSE 7040

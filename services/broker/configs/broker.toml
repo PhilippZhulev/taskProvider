@@ -1,2 +1,2 @@
-service_addr = ":5040"
-user_addr = ":5041"
+service_addr = ":7040"
+user_addr = ":7041"

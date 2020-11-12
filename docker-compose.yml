@@ -1,22 +1,20 @@
+version: "3.8"
 services:
-
   broker:
     container_name: tg_broker
     build:
       context: ./services/broker
       dockerfile: Dockerfile
     working_dir: /go/src/taskProvider
-    depends_on:
-      - user
     volumes:
       - ./services/broker:/go/src/taskProvider/services/broker
     restart: always
     ports:
-      - "5040:5040"
-    dns_search: .
-    #environment:
-      #- GRPC_GO_LOG_VERBOSITY_LEVEL=99 
-      #- GRPC_GO_LOG_SEVERITY_LEVEL=info
+      - "7040:7040"
+    network_mode: "host"
+    environment:
+      - GRPC_GO_LOG_VERBOSITY_LEVEL=99 
+      - GRPC_GO_LOG_SEVERITY_LEVEL=info
 
   user:
     container_name: tg_user
@@ -27,8 +25,9 @@ services:
     volumes:
       - ./services/user:/go/src/taskProvider/services/user
     restart: always
+    network_mode: "host"
     ports:
-      - "5041:5041"
+      - "7041:7041/tcp"
 
   getway:
     container_name: tg_getway
@@ -36,11 +35,10 @@ services:
       context: ./services/getway
       dockerfile: Dockerfile
     working_dir: /go/src/taskProvider
-    depends_on:
-      - user
     volumes:
       - ./services/getway:/go/src/taskProvider/services/getway
     restart: always
+    network_mode: "host"
     ports:
       - "8081:8081"
     environment:
@@ -48,6 +46,7 @@ services:
       - GRPC_VERBOSITY=DEBUG
       - GRPC_GO_LOG_VERBOSITY_LEVEL=2
       - GRPC_GO_LOG_SEVERITY_LEVEL=info
-      
+    
+
 
 
