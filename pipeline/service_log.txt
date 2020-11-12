@@ -1056,3 +1056,44 @@ LOG getway: 2020/11/11 14:30:50 [CAB-WSM-0003167/1kxneVGoYU-000004] "GET http://
 LOG broker: INFO: 2020/11/11 14:32:20 Run broker service: localhost:5040
 LOG user  : INFO: 2020/11/11 14:32:20 Run user service: localhost:5041
 LOG getway: 2020/11/11 14:32:26 [CAB-WSM-0003167/9C3spUmn9u-000001] "GET http://localhost:8081/api/v1/user/login HTTP/1.1" from [::1]:54532 - 501 57B in 162.921µs
+LOG broker: INFO: 2020/11/12 14:22:13 Run broker service: :4040
+LOG user  : INFO: 2020/11/12 14:22:14 Run user service: :4041
+LOG broker: INFO: 2020/11/12 14:22:21 [core] parsed scheme: ""
+LOG broker: INFO: 2020/11/12 14:22:21 [core] scheme "" not registered, fallback to default scheme
+LOG broker: INFO: 2020/11/12 14:22:21 [core] ccResolverWrapper: sending update to cc: {[{:4041  <nil> 0 <nil>}] <nil> <nil>}
+LOG broker: INFO: 2020/11/12 14:22:21 [core] ClientConn switching balancer to "pick_first"
+LOG broker: INFO: 2020/11/12 14:22:21 [core] Channel switches to new LB policy "pick_first"
+LOG broker: INFO: 2020/11/12 14:22:21 [core] Subchannel Connectivity change to CONNECTING
+LOG broker: INFO: 2020/11/12 14:22:21 [core] Subchannel picks a new address ":4041" to connect
+LOG broker: INFO: 2020/11/12 14:22:21 [core] Channel Connectivity change to CONNECTING
+LOG broker: INFO: 2020/11/12 14:22:21 [core] Subchannel Connectivity change to READY
+LOG broker: INFO: 2020/11/12 14:22:21 [core] Channel Connectivity change to READY
+LOG broker: INFO: 2020/11/12 14:22:21 [core] Channel Connectivity change to SHUTDOWN
+LOG broker: INFO: 2020/11/12 14:22:21 [core] Subchannel Connectivity change to SHUTDOWN
+LOG getway: 2020/11/12 14:22:21 [CAB-WSM-0003167/AwTRy0WaM4-000001] "POST http://localhost:8081/api/v1/user/create HTTP/1.1" from [::1]:63597 - 401 24B in 4.126893ms
+LOG broker: INFO: 2020/11/12 14:22:23 [core] parsed scheme: ""
+LOG broker: INFO: 2020/11/12 14:22:23 [core] scheme "" not registered, fallback to default scheme
+LOG broker: INFO: 2020/11/12 14:22:23 [core] ccResolverWrapper: sending update to cc: {[{:4041  <nil> 0 <nil>}] <nil> <nil>}
+LOG broker: INFO: 2020/11/12 14:22:23 [core] ClientConn switching balancer to "pick_first"
+LOG broker: INFO: 2020/11/12 14:22:23 [core] Channel switches to new LB policy "pick_first"
+LOG broker: INFO: 2020/11/12 14:22:23 [core] Subchannel Connectivity change to CONNECTING
+LOG broker: INFO: 2020/11/12 14:22:23 [core] Subchannel picks a new address ":4041" to connect
+LOG broker: INFO: 2020/11/12 14:22:23 [core] Channel Connectivity change to CONNECTING
+LOG broker: INFO: 2020/11/12 14:22:23 [core] Subchannel Connectivity change to READY
+LOG broker: INFO: 2020/11/12 14:22:23 [core] Channel Connectivity change to READY
+LOG broker: INFO: 2020/11/12 14:22:23 [core] Channel Connectivity change to SHUTDOWN
+LOG broker: INFO: 2020/11/12 14:22:23 [core] Subchannel Connectivity change to SHUTDOWN
+LOG getway: 2020/11/12 14:22:23 [CAB-WSM-0003167/AwTRy0WaM4-000002] "POST http://localhost:8081/api/v1/user/create HTTP/1.1" from [::1]:63597 - 401 24B in 1.831813ms
+LOG broker: INFO: 2020/11/12 14:22:26 [core] parsed scheme: ""
+LOG broker: INFO: 2020/11/12 14:22:26 [core] scheme "" not registered, fallback to default scheme
+LOG broker: INFO: 2020/11/12 14:22:26 [core] ccResolverWrapper: sending update to cc: {[{:4041  <nil> 0 <nil>}] <nil> <nil>}
+LOG broker: INFO: 2020/11/12 14:22:26 [core] ClientConn switching balancer to "pick_first"
+LOG broker: INFO: 2020/11/12 14:22:26 [core] Channel switches to new LB policy "pick_first"
+LOG broker: INFO: 2020/11/12 14:22:26 [core] Subchannel Connectivity change to CONNECTING
+LOG broker: INFO: 2020/11/12 14:22:26 [core] Subchannel picks a new address ":4041" to connect
+LOG broker: INFO: 2020/11/12 14:22:26 [core] Channel Connectivity change to CONNECTING
+LOG broker: INFO: 2020/11/12 14:22:26 [core] Subchannel Connectivity change to READY
+LOG broker: INFO: 2020/11/12 14:22:26 [core] Channel Connectivity change to READY
+LOG broker: INFO: 2020/11/12 14:22:26 [core] Channel Connectivity change to SHUTDOWN
+LOG broker: INFO: 2020/11/12 14:22:26 [core] Subchannel Connectivity change to SHUTDOWN
+LOG getway: 2020/11/12 14:22:26 [CAB-WSM-0003167/AwTRy0WaM4-000003] "POST http://localhost:8081/api/v1/user/login HTTP/1.1" from [::1]:63597 - 200 251B in 47.090086ms

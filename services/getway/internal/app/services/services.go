@@ -15,7 +15,7 @@ type Handler struct {}
 // Init ...
 func (h Handler) Init(grpcGwMux *runtime.ServeMux) (*grpc.ClientConn, error) {
     grpcUserConn, err := grpc.Dial(
-        "localhost:5040",
+        ":5040",
 		grpc.WithInsecure(),
 	)
 	

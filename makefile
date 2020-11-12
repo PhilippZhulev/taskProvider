@@ -21,17 +21,17 @@ build:
 .PHONY: build_p
 build_p:
 	# broker
-	go build -o ./build/services/broker/bin -v ./services/broker/cmd/broker
+	go build -o ./build/services/broker/bin/broker -v ./services/broker/cmd/broker
 	# copy broker config
-	cp ./services/broker/configs/broker.toml ./build/services/broker/configs
+	cp ./services/broker/configs/broker.toml ./build/services/broker
 	# getway
-	go build -o ./build/services/getway/bin -v ./services/getway/cmd/getway
+	go build -o ./build/services/getway/bin/getway -v ./services/getway/cmd/getway
 	# copy getway config
 	#cp ./services/getway/configs/getway.toml ./build/services/getway/configs
 	# user
-	go build -o ./build/services/user/bin -v ./services/user/cmd/user
+	go build -o ./build/services/user/bin/user -v ./services/user/cmd/user
 	# copy user config
-	cp ./services/user/configs/user.toml ./build/services/user/configs
+	cp ./services/user/configs/user.toml ./build/services/user
 	# pipeline
 	go build -o ./build/pipeline/pipeline -v ./pipeline/cmd/pipeline
 	# copy pipline config
@@ -113,13 +113,17 @@ mac:
 	export GOOS=darwin  
 	export GOARCH=amd64
 
-.PHONY: d_build
-d_build:
-	docker build -t task-provider .
+.PHONY: build_d
+build_d:
+	docker build -t task-provider-user ./services/user   
+	docker build -t task-provider-getway ./services/getway 
+	docker build -t task-provider-broker ./services/broker 
 
-.PHONY: d_start
-d_start:
-	docker run -it --rm --name my-running-app task-provider
+.PHONY: start_d
+start_d:
+	docker run -p 8081:8081 -it --rm --name getway task-provider-getway
+	docker run -p 5040:5040 -it --rm --name broker task-provider-broker
+	docker run -p 5041:5041 -it --rm --name user task-provider-user
 
 
 .DEFAULT_GOAL := protogen

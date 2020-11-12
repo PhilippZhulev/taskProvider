@@ -1,2 +1,2 @@
-service_addr = "localhost:5040"
-user_addr = "localhost:5041"
+service_addr = ":5040"
+user_addr = ":5041"
