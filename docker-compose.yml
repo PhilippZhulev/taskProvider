@@ -9,12 +9,12 @@ services:
     volumes:
       - ./services/broker:/go/src/taskProvider/services/broker
     restart: always
-    ports:
-      - "7040:7040"
-    network_mode: "host"
     environment:
       - GRPC_GO_LOG_VERBOSITY_LEVEL=99 
       - GRPC_GO_LOG_SEVERITY_LEVEL=info
+    networks:
+      static-network:
+        ipv4_address: 172.16.238.2
 
   user:
     container_name: tg_user
@@ -25,9 +25,9 @@ services:
     volumes:
       - ./services/user:/go/src/taskProvider/services/user
     restart: always
-    network_mode: "host"
-    ports:
-      - "7041:7041/tcp"
+    networks:
+      static-network:
+        ipv4_address: 172.16.238.3 
 
   getway:
     container_name: tg_getway
@@ -38,7 +38,6 @@ services:
     volumes:
       - ./services/getway:/go/src/taskProvider/services/getway
     restart: always
-    network_mode: "host"
     ports:
       - "8081:8081"
     environment:
@@ -46,7 +45,15 @@ services:
       - GRPC_VERBOSITY=DEBUG
       - GRPC_GO_LOG_VERBOSITY_LEVEL=2
       - GRPC_GO_LOG_SEVERITY_LEVEL=info
-    
+    networks:
+      static-network:
+        ipv4_address: 172.16.238.4
+  
 
 
-
+networks:
+  static-network:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.16.238.0/24"

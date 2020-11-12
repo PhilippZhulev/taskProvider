@@ -1,2 +1,2 @@
 service_addr = ":7040"
-user_addr = ":7041"
+user_addr = "172.16.238.3:7041"
