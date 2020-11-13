@@ -29,6 +29,14 @@ func createUserResp(ctx context.Context) func(r, code string) (*pb.CreateUserRes
 	}
 }
 
+//remove user response
+func removeUserResp(ctx context.Context) func(r, code string) (*pb.RemoveUserResponse, error)  {
+	return func(r, code string) (*pb.RemoveUserResponse, error) {
+		grpc.SendHeader(ctx, metadata.Pairs("x-http-code", code))
+		return &pb.RemoveUserResponse{Message: r}, nil
+	}
+}
+
 //get user response
 func getUserResp(ctx context.Context) func(d *pb.UserData, mes, code string) (*pb.GetUserResponse, error)  {
 	return func(d *pb.UserData, mes, code string) (*pb.GetUserResponse, error) {

@@ -64,6 +64,7 @@ message UserRemoveRequest {
 
 message UserRemoveResponse {
   string message = 1;
+  string code = 2;
 }
 
 // -------------------
