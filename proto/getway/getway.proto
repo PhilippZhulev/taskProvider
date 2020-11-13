@@ -41,6 +41,13 @@ service User {
   }
 
   // get response
+  rpc RemoveUser(RemoveUserRequest) returns (RemoveUserResponse) {
+    option (google.api.http) = {
+      delete: "/api/v1/user/{id}"
+    };
+  }
+
+  // get response
   rpc GetUser(GetUserRequest) returns (GetUserResponse) {
     option (google.api.http) = {
       get: "/api/v1/user"
@@ -76,6 +83,18 @@ message CreateUserRequest {
 }
 
 message CreateUserResponse {
+  string message = 1;
+}
+
+// -------------------
+// User remove
+// -------------------
+
+message RemoveUserRequest {
+  string id = 1;
+}
+
+message RemoveUserResponse {
   string message = 1;
 }
 

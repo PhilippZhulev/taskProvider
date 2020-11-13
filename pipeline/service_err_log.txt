@@ -102,3 +102,4 @@ ERROR user  : google.golang.org/grpc.(*Server).serveStreams.func1.2(0xc0000b5d90
 ERROR user  : 	/Users/u16837531/go/pkg/mod/google.golang.org/grpc@v1.33.1/server.go:871 +0xa5
 ERROR user  : created by google.golang.org/grpc.(*Server).serveStreams.func1
 ERROR user  : 	/Users/u16837531/go/pkg/mod/google.golang.org/grpc@v1.33.1/server.go:869 +0x1fd
+ERROR getway: 2020/11/13 12:47:10 listen tcp :8081: bind: address already in use

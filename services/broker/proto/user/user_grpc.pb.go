@@ -20,6 +20,7 @@ type UserServiceClient interface {
 	UserLogin(ctx context.Context, in *UserLoginRequest, opts ...grpc.CallOption) (*UserLoginResponse, error)
 	UserCheck(ctx context.Context, in *UserCheckRequest, opts ...grpc.CallOption) (*UserCheckResponse, error)
 	UserCreate(ctx context.Context, in *UserCreateRequest, opts ...grpc.CallOption) (*UserCreateResponse, error)
+	UserRemove(ctx context.Context, in *UserRemoveRequest, opts ...grpc.CallOption) (*UserRemoveResponse, error)
 	UserGet(ctx context.Context, in *UserGetRequest, opts ...grpc.CallOption) (*UserGetResponse, error)
 }
 
@@ -58,6 +59,15 @@ func (c *userServiceClient) UserCreate(ctx context.Context, in *UserCreateReques
 	return out, nil
 }
 
+func (c *userServiceClient) UserRemove(ctx context.Context, in *UserRemoveRequest, opts ...grpc.CallOption) (*UserRemoveResponse, error) {
+	out := new(UserRemoveResponse)
+	err := c.cc.Invoke(ctx, "/user.UserService/UserRemove", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *userServiceClient) UserGet(ctx context.Context, in *UserGetRequest, opts ...grpc.CallOption) (*UserGetResponse, error) {
 	out := new(UserGetResponse)
 	err := c.cc.Invoke(ctx, "/user.UserService/UserGet", in, out, opts...)
@@ -74,6 +84,7 @@ type UserServiceServer interface {
 	UserLogin(context.Context, *UserLoginRequest) (*UserLoginResponse, error)
 	UserCheck(context.Context, *UserCheckRequest) (*UserCheckResponse, error)
 	UserCreate(context.Context, *UserCreateRequest) (*UserCreateResponse, error)
+	UserRemove(context.Context, *UserRemoveRequest) (*UserRemoveResponse, error)
 	UserGet(context.Context, *UserGetRequest) (*UserGetResponse, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
@@ -90,6 +101,9 @@ func (UnimplementedUserServiceServer) UserCheck(context.Context, *UserCheckReque
 }
 func (UnimplementedUserServiceServer) UserCreate(context.Context, *UserCreateRequest) (*UserCreateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UserCreate not implemented")
+}
+func (UnimplementedUserServiceServer) UserRemove(context.Context, *UserRemoveRequest) (*UserRemoveResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UserRemove not implemented")
 }
 func (UnimplementedUserServiceServer) UserGet(context.Context, *UserGetRequest) (*UserGetResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UserGet not implemented")
@@ -161,6 +175,24 @@ func _UserService_UserCreate_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_UserRemove_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserRemoveRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).UserRemove(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/user.UserService/UserRemove",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).UserRemove(ctx, req.(*UserRemoveRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _UserService_UserGet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UserGetRequest)
 	if err := dec(in); err != nil {
@@ -194,6 +226,10 @@ var _UserService_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UserCreate",
 			Handler:    _UserService_UserCreate_Handler,
+		},
+		{
+			MethodName: "UserRemove",
+			Handler:    _UserService_UserRemove_Handler,
 		},
 		{
 			MethodName: "UserGet",

@@ -22,6 +22,8 @@ type UserClient interface {
 	// create response
 	CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*CreateUserResponse, error)
 	// get response
+	RemoveUser(ctx context.Context, in *RemoveUserRequest, opts ...grpc.CallOption) (*RemoveUserResponse, error)
+	// get response
 	GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*GetUserResponse, error)
 }
 
@@ -51,6 +53,15 @@ func (c *userClient) CreateUser(ctx context.Context, in *CreateUserRequest, opts
 	return out, nil
 }
 
+func (c *userClient) RemoveUser(ctx context.Context, in *RemoveUserRequest, opts ...grpc.CallOption) (*RemoveUserResponse, error) {
+	out := new(RemoveUserResponse)
+	err := c.cc.Invoke(ctx, "/getway.User/RemoveUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *userClient) GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*GetUserResponse, error) {
 	out := new(GetUserResponse)
 	err := c.cc.Invoke(ctx, "/getway.User/GetUser", in, out, opts...)
@@ -69,6 +80,8 @@ type UserServer interface {
 	// create response
 	CreateUser(context.Context, *CreateUserRequest) (*CreateUserResponse, error)
 	// get response
+	RemoveUser(context.Context, *RemoveUserRequest) (*RemoveUserResponse, error)
+	// get response
 	GetUser(context.Context, *GetUserRequest) (*GetUserResponse, error)
 	mustEmbedUnimplementedUserServer()
 }
@@ -82,6 +95,9 @@ func (UnimplementedUserServer) Login(context.Context, *LoginUserRequest) (*Login
 }
 func (UnimplementedUserServer) CreateUser(context.Context, *CreateUserRequest) (*CreateUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateUser not implemented")
+}
+func (UnimplementedUserServer) RemoveUser(context.Context, *RemoveUserRequest) (*RemoveUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RemoveUser not implemented")
 }
 func (UnimplementedUserServer) GetUser(context.Context, *GetUserRequest) (*GetUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUser not implemented")
@@ -135,6 +151,24 @@ func _User_CreateUser_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
+func _User_RemoveUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RemoveUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).RemoveUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/getway.User/RemoveUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).RemoveUser(ctx, req.(*RemoveUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _User_GetUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetUserRequest)
 	if err := dec(in); err != nil {
@@ -164,6 +198,10 @@ var _User_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateUser",
 			Handler:    _User_CreateUser_Handler,
+		},
+		{
+			MethodName: "RemoveUser",
+			Handler:    _User_RemoveUser_Handler,
 		},
 		{
 			MethodName: "GetUser",

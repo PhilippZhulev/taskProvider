@@ -1,3 +1,5 @@
 build
 temp
 .vscode
+service_err_log.txt
+service_log.txt

@@ -6,13 +6,14 @@ rdsb:
 rds:
 	docker-compose up 
 
-.PHONY: rdsstop
-rdsstop:
- 	docker-compose down 
 
 .PHONY: protogen
 protogen:
 	./protogen/bin/protogen
+
+.PHONY: rdstop
+rdstop:
+	docker-compose down
 
 .PHONY: build
 build:
@@ -21,7 +22,7 @@ build:
 	go build -o ./services/user/bin -v ./services/user/cmd/user
 
 
-.PHONY: build_p
+.PHONY: bup
 bup:
 	go build -o ./build/services/broker/bin/broker -v ./services/broker/cmd/broker
 	cp ./services/broker/configs/broker.toml ./build/services/broker
@@ -43,6 +44,5 @@ pipeline:
 .PHONY: pgb
 pgb:
 	go build -o ./protogen/bin -v ./protogen/cmd/protogen
-
 
 .DEFAULT_GOAL := protogen

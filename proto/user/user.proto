@@ -11,6 +11,7 @@ service UserService {
   rpc UserLogin(UserLoginRequest) returns (UserLoginResponse) {}
   rpc UserCheck(UserCheckRequest) returns (UserCheckResponse) {}
   rpc UserCreate(UserCreateRequest) returns (UserCreateResponse) {}
+  rpc UserRemove(UserRemoveRequest) returns (UserRemoveResponse) {}
   rpc UserGet(UserGetRequest) returns (UserGetResponse) {}
 }
 
@@ -52,6 +53,17 @@ message UserCreateRequest {
 message UserCreateResponse {
   string message = 1;
   string code = 2;
+}
+
+// -------------------
+// Remove
+// -------------------
+message UserRemoveRequest {
+  string uuid = 1;
+}
+
+message UserRemoveResponse {
+  string message = 1;
 }
 
 // -------------------
