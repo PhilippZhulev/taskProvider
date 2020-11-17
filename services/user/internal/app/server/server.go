@@ -61,15 +61,15 @@ func newServer(config *configurator.Config, store *sqlstore.Store) (grpclog.Logg
 func (s *initServer) UserLogin(ctx context.Context, in *pb.UserLoginRequest) (*pb.UserLoginResponse, error) {
 	attr, err := s.handlers.HandleLogin(in.GetAuthData(), s.store, s.config)
 	if err != nil {
-		return userLoginResp("", err.Error(), "400")
+		return userLoginResp(nil, err.Error(), "400")
 	}
 
 	token, err := s.handlers.HandleCreateToken(attr, s.tokenAuth)
 	if err != nil {
-		return userLoginResp("", err.Error(), "400")
+		return userLoginResp(nil, err.Error(), "400")
 	}
 
-	return userLoginResp(token, authSuccess, "200")
+	return userLoginResp([]byte(token), authSuccess, "200")
 }
 
 // User check service metod

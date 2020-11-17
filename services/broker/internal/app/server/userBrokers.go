@@ -16,30 +16,35 @@ import (
 // Login  --->  User service
 func (s *initServer) Login(ctx context.Context, in *pb.LoginUserRequest) (*pb.LoginUserResponse, error) {	
 	resp := loginResp(ctx)
-	conn, c, code, err := newDefUserConn(ctx, s)
-	if err != nil {
-		return resp(nil, err.Error(), code)
-	}
-	defer conn.Close()
 
-	res, err := c.UserLogin(ctx, &pbUser.UserLoginRequest{AuthData: in.GetAuthData().AuthData})
+	c := newConn("loginUser:user")
+	u := pbUser.NewUserServiceClient(c)
+	defer c.Close()
+
+	res, err := u.UserLogin(ctx, &pbUser.UserLoginRequest{AuthData: in.GetAuthData().AuthData})
+
+
 	if err != nil {
-		return resp(nil, err.Error(), "401")
+		return resp(nil, err.Error(), res.Code)
 	}
 
-	return resp([]byte(res.GetData()), res.GetMessage(), res.Code)
+	return resp(res.GetData(), res.GetMessage(), res.Code)
 }
 
 // CreateUser  --->  User service
 func (s *initServer) CreateUser(ctx context.Context, in *pb.CreateUserRequest) (*pb.CreateUserResponse, error) {	
 	resp := createUserResp(ctx)
-	conn, c, code, err := newDefUserConn(ctx, s)
+
+	c := newConn("createUser:user")
+	u := pbUser.NewUserServiceClient(c)
+	defer c.Close()
+
+	code, err := handleAuthCheck(ctx, u); 
 	if err != nil {
 		return resp(err.Error(), code)
 	}
-	defer conn.Close()
 
-	res, err := c.UserCreate(ctx, &pbUser.UserCreateRequest{
+	res, err := u.UserCreate(ctx, &pbUser.UserCreateRequest{
 		Login: in.GetLogin(),
 		Name: in.GetName(),
 		Email: in.GetEmail(),
@@ -56,13 +61,17 @@ func (s *initServer) CreateUser(ctx context.Context, in *pb.CreateUserRequest) (
 // RemoveUser  --->  User service
 func (s *initServer) RemoveUser(ctx context.Context, in *pb.RemoveUserRequest) (*pb.RemoveUserResponse, error) {
 	resp := removeUserResp(ctx)
-	conn, c, code, err := newDefUserConn(ctx, s)
+
+	c := newConn("removeUser:user")
+	u := pbUser.NewUserServiceClient(c)
+	defer c.Close()
+
+	code, err := handleAuthCheck(ctx, u); 
 	if err != nil {
 		return resp(err.Error(), code)
 	}
-	defer conn.Close()
 
-	res, err := c.UserRemove(ctx, &pbUser.UserRemoveRequest{
+	res, err := u.UserRemove(ctx, &pbUser.UserRemoveRequest{
 		Uuid: in.GetId(),
 	}) 
 	
@@ -78,13 +87,16 @@ func (s *initServer) GetUser(ctx context.Context, in *pb.GetUserRequest) (*pb.Ge
 	md, _ := metadata.FromIncomingContext(ctx)
 	resp := getUserResp(ctx)
 	
-	conn, c, code, err := newDefUserConn(ctx, s)
+	c := newConn("getUser:user")
+	u := pbUser.NewUserServiceClient(c)
+	defer c.Close()
+
+	code, err := handleAuthCheck(ctx, u); 
 	if err != nil {
 		return resp(nil, err.Error(), code)
 	}
-	defer conn.Close()
 
-	res, err := c.UserGet(ctx, &pbUser.UserGetRequest{Data: strings.Split(md["authorization"][0], " ")[1]})
+	res, err := u.UserGet(ctx, &pbUser.UserGetRequest{Data: strings.Split(md["authorization"][0], " ")[1]})
 	if err != nil {
 		return resp(nil, err.Error(), "400")
 	}

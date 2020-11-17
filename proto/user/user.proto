@@ -23,7 +23,7 @@ message UserLoginRequest {
 }
 
 message UserLoginResponse {
-  string data = 1;
+  bytes data = 1;
   string message = 2;
   string code = 3;
 }

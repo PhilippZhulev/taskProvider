@@ -36,13 +36,13 @@ func (init Init) HandleLogin(in string, store *sqlstore.Store, config *configura
 
 // HandleCreateToken ...
 // Стенерировать токен
-func (init Init) HandleCreateToken(attr []string, tokenAuth *jwtauth.JWTAuth) (string, error) {
+func (init Init) HandleCreateToken(attr []string, tokenAuth *jwtauth.JWTAuth) ([]byte, error) {
 	claims := jwt.MapClaims{"user_id": attr[0], "uuid": attr[1]}
 	jwtauth.SetExpiryIn(claims, 1000*time.Second)
 	_, tokenString, err := tokenAuth.Encode(claims)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
-	return tokenString, nil
+	return []byte(tokenString), nil
 }

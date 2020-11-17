@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"io/ioutil"
+	"log"
 	"net"
 	"os"
 	"strings"
@@ -27,6 +28,14 @@ type initServer struct {
 	conf *configurator.Config 
 }
 
+type proxy struct {
+	Connect  *grpc.ClientConn
+	RespID string
+}
+
+var connChanIn = make(chan string)
+var connChanOut = make(chan *proxy)
+
 //-------------------------------------
 // GRPC сервер
 //-------------------------------------
@@ -42,7 +51,11 @@ func NewServer(config *configurator.Config) (grpclog.LoggerV2, error) {
 	}
 	s := grpc.NewServer()
 	pb.RegisterUserServer(s, &initServer{conf: config})
-	
+
+	newProxyConnections(map[string]string{
+		"user": config.UserADDR,
+	});
+
 	log.Info("Run broker service: ", config.ServiceADDR)
 	if err := s.Serve(lis); err != nil {
 		return log, err
@@ -51,7 +64,40 @@ func NewServer(config *configurator.Config) (grpclog.LoggerV2, error) {
 	return log, nil
 }
 
-// HandleAuthCheck ...
+// new connection
+func newProxyConnections(addrs map[string]string) {
+	go func() {
+		for ch := range connChanIn {
+			go func(in string) {
+				sch := strings.Split(in, ":")
+				conn, err := grpc.Dial(addrs[sch[1]], grpc.WithInsecure(), grpc.WithBlock())
+				if err != nil {
+					log.Println(err.Error())
+				}
+				connChanOut <- &proxy{Connect: conn, RespID: sch[0]}
+			}(ch)
+		}
+	}()
+}
+
+// new broker connection event
+func newConn(ev string) (*grpc.ClientConn) {
+	connChanIn <- ev
+	var conn *grpc.ClientConn
+	for ch := range connChanOut {
+		if ch.RespID == strings.Split(ev, ":")[0] {
+			conn = ch.Connect
+			break
+		}
+
+		log.Println("failed:", "connetion id not found")
+		break
+	}
+
+	return conn
+}
+
+// check tocken
 func handleAuthCheck(ctx context.Context, c pbUser.UserServiceClient) (string, error) {
 	md, _ := metadata.FromIncomingContext(ctx)
 
@@ -72,13 +118,4 @@ func handleAuthCheck(ctx context.Context, c pbUser.UserServiceClient) (string, e
 	}
 
 	return "200", nil
-}
-
-func handleConnectUser(addr string) (*grpc.ClientConn, pbUser.UserServiceClient, error) {
-	conn, err := grpc.Dial(addr, grpc.WithInsecure(), grpc.WithBlock())
-	if err != nil {
-		return nil, nil, err
-	}
-
-	return conn, pbUser.NewUserServiceClient(conn), nil
 }

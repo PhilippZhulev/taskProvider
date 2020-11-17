@@ -2,7 +2,7 @@ package server
 
 import pb "gitlab.com/taskProvider/services/user/proto/user"
 
-func userLoginResp(data string, res, code string) (*pb.UserLoginResponse, error)  {
+func userLoginResp(data []byte, res, code string) (*pb.UserLoginResponse, error)  {
 	return &pb.UserLoginResponse{Data: data, Message: res, Code: code}, nil
 }
 
