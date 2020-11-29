@@ -29,12 +29,31 @@ func createUserResp(ctx context.Context) func(r, code string) (*pb.CreateUserRes
 	}
 }
 
+//remove user response
+func removeUserResp(ctx context.Context) func(r, code string) (*pb.RemoveUserResponse, error)  {
+	return func(r, code string) (*pb.RemoveUserResponse, error) {
+		grpc.SendHeader(ctx, metadata.Pairs("x-http-code", code))
+		return &pb.RemoveUserResponse{Message: r}, nil
+	}
+}
+
 //get user response
 func getUserResp(ctx context.Context) func(d *pb.UserData, mes, code string) (*pb.GetUserResponse, error)  {
 	return func(d *pb.UserData, mes, code string) (*pb.GetUserResponse, error) {
 		grpc.SendHeader(ctx, metadata.Pairs("x-http-code", code))
 		return &pb.GetUserResponse{
 			UserData: d,
+			Message: mes,
+		}, nil
+	}
+}
+
+//get user list response
+func getUserListResp(ctx context.Context) func(u []*pb.Users, mes, code string) (*pb.UserListResponse, error)  {
+	return func(u []*pb.Users, mes, code string) (*pb.UserListResponse, error) {
+		grpc.SendHeader(ctx, metadata.Pairs("x-http-code", code))
+		return &pb.UserListResponse{
+			Users: u,
 			Message: mes,
 		}, nil
 	}

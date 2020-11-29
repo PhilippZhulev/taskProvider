@@ -63,15 +63,6 @@ services:
       static-network:
         ipv4_address: 172.16.238.5
 
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 7080:8080
-    networks:
-      static-network:
-        ipv4_address: 172.16.238.6
-
 
 networks:
   static-network:
