@@ -47,3 +47,14 @@ func getUserResp(ctx context.Context) func(d *pb.UserData, mes, code string) (*p
 		}, nil
 	}
 }
+
+//get user list response
+func getUserListResp(ctx context.Context) func(u []*pb.Users, mes, code string) (*pb.UserListResponse, error)  {
+	return func(u []*pb.Users, mes, code string) (*pb.UserListResponse, error) {
+		grpc.SendHeader(ctx, metadata.Pairs("x-http-code", code))
+		return &pb.UserListResponse{
+			Users: u,
+			Message: mes,
+		}, nil
+	}
+}

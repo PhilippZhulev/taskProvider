@@ -3,6 +3,7 @@ package server
 import (
 	"context"
 	"strings"
+	"sync"
 
 	pb "gitlab.com/taskProvider/services/broker/proto/getway"
 	pbUser "gitlab.com/taskProvider/services/broker/proto/user"
@@ -22,7 +23,6 @@ func (s *initServer) Login(ctx context.Context, in *pb.LoginUserRequest) (*pb.Lo
 	defer c.Close()
 
 	res, err := u.UserLogin(ctx, &pbUser.UserLoginRequest{AuthData: in.GetAuthData().AuthData})
-
 
 	if err != nil {
 		return resp(nil, err.Error(), res.Code)
@@ -72,7 +72,7 @@ func (s *initServer) RemoveUser(ctx context.Context, in *pb.RemoveUserRequest) (
 	}
 
 	res, err := u.UserRemove(ctx, &pbUser.UserRemoveRequest{
-		Uuid: in.GetId(),
+		Id: in.GetId(),
 	}) 
 	
 	if err != nil {
@@ -105,5 +105,60 @@ func (s *initServer) GetUser(ctx context.Context, in *pb.GetUserRequest) (*pb.Ge
 		Login: res.Login, 
 		Name: res.Name, 
 		Email: res.Email,
+		Id: res.Id,
 	}, res.Message, res.Code)
+}
+
+// GetUserList  --->  User service
+func (s *initServer) GetUserList(ctx context.Context, in *pb.UserListRequest) (*pb.UserListResponse, error) {	
+	return userListTempl(ctx, in, "userList:user", false)
+}
+
+// GetUserListFilter  --->  User service
+func (s *initServer) GetUserListFilter(ctx context.Context, in *pb.UserListRequest) (*pb.UserListResponse, error) {	
+	return userListTempl(ctx, in, "userListFilter:user", true)
+}
+
+// GetUserList and GetUserListFilter chunk
+func userListTempl(ctx context.Context, in *pb.UserListRequest, id string, f bool)  (*pb.UserListResponse, error) {
+	resp := getUserListResp(ctx)
+
+	c := newConn(id)
+	u := pbUser.NewUserServiceClient(c)
+	defer c.Close()
+
+	code, err := handleAuthCheck(ctx, u); 
+	if err != nil {
+		return resp(nil, err.Error(), code)
+	}
+
+	res, err := u.UserList(ctx, &pbUser.UserListRequest{
+		List: in.GetList(),
+		Offset: in.GetOffset(),
+		Filter: f,
+		Value: in.GetValue(),
+	})
+
+	if err != nil {
+		return resp(nil, err.Error(), "400")
+	}
+
+	var users []*pb.Users
+	var wg sync.WaitGroup
+
+	for _, el := range res.GetUsers() {
+		wg.Add(1)
+		go func(item *pbUser.Users) {
+			users = append(users, &pb.Users{
+				Name:  item.GetName(),
+				Email: item.GetEmail(),
+				Uuid:  item.GetUuid(),
+				Id:    item.GetId(),
+			})
+			wg.Done()
+		}(el)
+	}
+	wg.Wait()
+	
+	return resp(users, res.Message, res.Code)
 }

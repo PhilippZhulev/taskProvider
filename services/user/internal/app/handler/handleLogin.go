@@ -3,6 +3,7 @@ package handler
 import (
 	"encoding/base64"
 	"log"
+	"strconv"
 	"strings"
 	"time"
 
@@ -31,7 +32,7 @@ func (init Init) HandleLogin(in string, store *sqlstore.Store, config *configura
 		return nil, errIncorrectEmailOrPassword;
 	}
 
-	return []string{u.Email, u.UUID}, nil
+	return []string{strconv.Itoa(u.ID), u.UUID}, nil
 }
 
 // HandleCreateToken ...

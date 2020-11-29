@@ -7,8 +7,8 @@ import (
 	pb "gitlab.com/taskProvider/services/user/proto/user"
 )
 
-// HandleUserCreate ...
-func (init Init) HandleUserCreate(in *pb.UserCreateRequest, store *sqlstore.Store, config *configurator.Config) error {
+// HandleCreate ...
+func (init Init) HandleCreate(in *pb.UserCreateRequest, store *sqlstore.Store, config *configurator.Config) error {
 	return func() error {
 
 		u := &model.User{

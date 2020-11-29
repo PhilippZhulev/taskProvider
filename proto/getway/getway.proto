@@ -35,12 +35,12 @@ service User {
   // create response
   rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {
     option (google.api.http) = {
-      post: "/api/v1/user/create"
+      put: "/api/v1/user/create"
       body: "*"
     };
   }
 
-  // get response
+  // remove response
   rpc RemoveUser(RemoveUserRequest) returns (RemoveUserResponse) {
     option (google.api.http) = {
       delete: "/api/v1/user/{id}"
@@ -51,6 +51,21 @@ service User {
   rpc GetUser(GetUserRequest) returns (GetUserResponse) {
     option (google.api.http) = {
       get: "/api/v1/user"
+    };
+  }
+
+  // get list response
+  rpc GetUserList(UserListRequest) returns (UserListResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/user/{list}/{offset}"
+    };
+  }
+
+    // get list response
+  rpc GetUserListFilter(UserListRequest) returns (UserListResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/user/{list}/{offset}"
+      body: "value"
     };
   }
 }
@@ -113,4 +128,27 @@ message userData {
   string login = 1;
   string name = 2;
   string email = 3;
+  string id = 4;
+}
+
+// -------------------
+// Users list 
+// -------------------
+
+message UserListRequest {
+  string list = 1;
+  string offset = 2;
+  string value = 3; 
+}
+
+message UserListResponse {
+  repeated Users users = 1;
+  string message = 2;
+}
+
+message Users {
+  string name = 1;
+  string email = 2;
+  string uuid = 3;
+  string id = 4;
 }

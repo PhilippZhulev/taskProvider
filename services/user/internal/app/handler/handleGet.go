@@ -43,6 +43,7 @@ func (init Init) HandleUserGet(in *pb.UserGetRequest, store *sqlstore.Store) ([]
 			u.Login, 
 			u.Name, 
 			u.Email,
+			c.ID,
 		}, nil
 	}()
 }

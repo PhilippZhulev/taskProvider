@@ -94,12 +94,22 @@ func (s *initServer) UserCheck(ctx context.Context, in *pb.UserCheckRequest) (*p
 
 // User create service metod
 func (s *initServer) UserCreate(ctx context.Context, in *pb.UserCreateRequest) (*pb.UserCreateResponse, error) {
-	err := s.handlers.HandleUserCreate(in, s.store, s.config)
+	err := s.handlers.HandleCreate(in, s.store, s.config)
 	if err != nil {
 		return userCreateResp(err.Error(), "400")
 	}
 
-	return userCreateResp(userCreateStatus, "200")
+	return userCreateResp(userCreateStatus, "201")
+}
+
+// User remove service metod
+func (s *initServer) UserRemove(ctx context.Context, in *pb.UserRemoveRequest) (*pb.UserRemoveResponse, error) {
+	err := s.handlers.HandleUserRemove(in, s.store)
+	if err != nil {
+		return userRemoveResp(err.Error(), "400")
+	}
+
+	return userRemoveResp(userRemoveStatus, "200")
 }
 
 // User get service metod
@@ -110,4 +120,14 @@ func (s *initServer) UserGet(ctx context.Context, in *pb.UserGetRequest) (*pb.Us
 	}
 
 	return userGetResp(attr, userGetStatus, "200")
+}
+
+// User list service metod
+func (s *initServer) UserList(ctx context.Context, in *pb.UserListRequest) (*pb.UserListResponse, error) {
+	attr, err := s.handlers.HandleList(in, s.store)
+	if err != nil {
+		return userListResp([]*pb.Users{}, err.Error(), "400")
+	}
+
+	return userListResp(attr, userListStatus, "200")
 }
