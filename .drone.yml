@@ -4,12 +4,18 @@ kind: pipeline
 type: docker
 
 steps:
-- name: taskProviderBackend
-  image: zhulevfa/task-provider
+- name: taskProviderBroker
+  image: micro_services_broker
   commands:
-    - go get
-    - make build
-    - make test
+    - go build ./services/broker/cmd/broker
+- name: taskProviderGetway
+  image: micro_services_getway
+  commands:
+    - go build ./services/getway/cmd/getway
+- name: taskProviderUser
+  image: micro_services_user
+  commands:
+    - go build ./services/user/cmd/user
 
 
 
