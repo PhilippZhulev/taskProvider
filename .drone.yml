@@ -5,15 +5,15 @@ type: docker
 
 steps:
 - name: taskProviderBroker
-  image: micro_services_broker
+  image: zhulevfa/micro_services_broker
   commands:
     - go build ./services/broker/cmd/broker
 - name: taskProviderGetway
-  image: micro_services_getway
+  image: zhulevfa/micro_services_getway
   commands:
     - go build ./services/getway/cmd/getway
 - name: taskProviderUser
-  image: micro_services_user
+  image: zhulevfa/micro_services_user
   commands:
     - go build ./services/user/cmd/user
 
