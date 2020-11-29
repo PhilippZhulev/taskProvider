@@ -66,3 +66,42 @@ func (r *UserRepository) Create(u *model.User, salt string) error {
 		u.UUID,
 	).Scan(&u.ID)
 }
+
+// Remove ...
+// Удаление пользователя
+func (r *UserRepository) Remove(id int) (int64, error) {
+	s, err := r.store.db.Exec(
+		"DELETE FROM users WHERE id = $1",
+		id,
+	)
+
+	if err != nil {
+		return int64(0), err
+	}
+
+	
+	return s.RowsAffected()
+}
+
+// GetAllUsers ...
+// Получить пользователей
+func (r *UserRepository) GetAllUsers(l, o string) (*sql.Rows, error) {
+	return r.store.db.Query(`
+		SELECT id, user_name, email, uuid
+		FROM users  
+		LIMIT $1 
+		OFFSET $2 * 2
+	`, l, o)
+}
+
+// GetAllUsersAndFiltring ...
+// Получить пользователей Попараметрам филтрации
+func (r *UserRepository) GetAllUsersAndFiltring(l, o, value string) (*sql.Rows, error) {
+	return r.store.db.Query(`
+		SELECT id, user_name, email, uuid
+		FROM users  
+		WHERE user_name LIKE '`+value+`%'
+		LIMIT $1 
+		OFFSET $2 * 2
+	`, l, o)
+}
